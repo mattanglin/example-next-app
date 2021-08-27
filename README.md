@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - [ ] create mock api service
 - [ ] 404 page
 - [x] generate static page examples, querying from api using `getSaticProps`
-- [ ] generate dynamic page routes examples, querying from api use `getStaticPaths`
+- [x] generate dynamic page routes examples, querying from api use `getStaticPaths`
 - [ ] generate dynamic ssr page examples, querying from api using `getServerSideProps`
 - [ ] generate dynamic page examples, querying in client useing `useSWR`
 - [ ] Protected pages and Auth

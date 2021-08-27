@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { Content } from '../types/Content';
 import { Page } from '../types/Page';
+import { User } from '../types/User';
 
 export class ApiClient {
   private client: AxiosInstance;
@@ -11,6 +12,9 @@ export class ApiClient {
     });
   }
 
+  /**
+   * CONTENT
+   */
   public async getContent(key: string) {
     const { data } = await this.client.get<Content>(`/content/${key}`);
     return data;
@@ -23,6 +27,14 @@ export class ApiClient {
 
   public async getPage(slug: string) {
     const { data } = await this.client.get<Page>(`/pages/${slug}`)
+    return data;
+  }
+
+  /**
+   * USERS
+   */
+  public async getUserProfile(username: string) {
+    const { data } = await this.client.get<User>(`/users/${username}`);
     return data;
   }
 }

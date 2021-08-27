@@ -5,6 +5,7 @@ import express from 'express';
 import { auth } from './auth';
 import { content } from './content';
 import { pages } from './pages';
+import { users } from './users';
 
 export const app = express();
 
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 app.use('/auth', auth());
 app.use('/content', content());
 app.use('/pages', pages());
+app.use('/users', users());
 
 
 const port = 8000;
