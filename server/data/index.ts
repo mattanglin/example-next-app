@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { Content } from '../../src/types/Content';
+import { Page } from '../../src/types/Page';
 import { generatePage } from './pages';
 
 export const generateData = () => {
@@ -21,7 +22,7 @@ export const generateData = () => {
   const pageCount = faker.datatype.number(10) + 4;
   const pages = Array.from({ length: pageCount })
     .map(() => generatePage())
-    .reduce((agg, page) => ({ ...agg, [page.slug]: page }), {});
+    .reduce((agg, page) => ({ ...agg, [page.slug]: page }), {} as Record<string, Page>);
 
   // Generate Users
   // Generate User Posts

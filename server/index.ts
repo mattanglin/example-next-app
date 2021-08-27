@@ -4,6 +4,7 @@ import express from 'express';
 
 import { auth } from './auth';
 import { content } from './content';
+import { pages } from './pages';
 
 export const app = express();
 
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 // Controllers
 app.use('/auth', auth());
 app.use('/content', content());
+app.use('/pages', pages());
 
 
 const port = 8000;
