@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 // import Image from 'next/image'
 import { Layout } from '../components/Layout/Layout';
-import { ApiClient } from '../lib/client';
+import { serverClient } from '../lib/client';
 import { Content } from '../types/Content';
 
 export interface HomePageProps {
@@ -12,9 +12,8 @@ export interface HomePageProps {
 }
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-  const client = new ApiClient();
-  const content = await client.getContent('homepage');
-  const slugs = await client.getPageSlugs();
+  const content = await serverClient.getContent('homepage');
+  const slugs = await serverClient.getPageSlugs();
   
   return {
     props: {

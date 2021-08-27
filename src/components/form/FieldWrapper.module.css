@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;  
+}
+
+.label {
+  font-size: 1.125rem;
+}
+.required {
+  color: red;
+  font-weight: bold;
+}
+
+.field {
+  margin-top: 8px;
+}
+
+.error {
+  margin-top: 4px;
+}

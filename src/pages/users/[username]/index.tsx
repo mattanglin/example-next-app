@@ -2,7 +2,7 @@ import React from 'react';
 import { GetStaticPaths, GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { Layout } from '../../../components/Layout/Layout';
-import { client } from '../../../lib/client';
+import { serverClient } from '../../../lib/client';
 import { User } from '../../../types/User';
 
 export interface UserProfilePageProps {
@@ -12,7 +12,7 @@ export interface UserProfilePageProps {
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps, { username: string }> = async (context) => {
   const { username = '' } = context.params || {};
   try {
-    const user = await client.getUserProfile(username);
+    const user = await serverClient.getUserProfile(username);
     return {
       props: { user },
     };

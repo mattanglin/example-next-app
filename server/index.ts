@@ -10,6 +10,7 @@ import { users } from './users';
 export const app = express();
 
 // Apply basic middleware
+app.use(express.json());
 app.use((req, res, next) => {
   console.log(`${req.method.toUpperCase()} ${req.url}`);
   next();
