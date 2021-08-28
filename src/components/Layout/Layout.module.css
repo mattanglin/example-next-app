@@ -136,3 +136,16 @@
     flex-direction: column;
   }
 }
+
+.userbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.userbar > * {
+  margin-left: 16px;
+}
+
+.avatar {
+  width: 40px;
+}
