@@ -1,5 +1,6 @@
 import { useCallback, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { destroyCookie } from 'nookies';
 import { authContext } from './authContext';
 import { clearAuth, storeAuth } from './util';
 import { client } from '../client';
@@ -16,6 +17,7 @@ export const useAuth = () => {
   }, [setAuth]);
   const logout = useCallback(async () => {
     await client.logout();
+    destroyCookie(null, 'auth-token');
     clearAuth();
     setAuth({});
 

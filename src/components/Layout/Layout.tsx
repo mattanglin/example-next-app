@@ -24,10 +24,18 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           {(isLoggedIn && user) ? (
             <div className={styles.userbar}>
               <div className={styles.avatar}>
-                <Avatar username={user.username} avatar={user.avatar} />
+                <Link href="/settings">
+                  <a>
+                    <Avatar username={user.username} avatar={user.avatar} />
+                  </a>
+                </Link>
               </div>
               <div>
-                {user.username}
+              <Link href="/settings">
+                  <a>
+                    {user.username}
+                  </a>
+                </Link>
               </div>
               <Link href="/logout">Log out</Link>
             </div>

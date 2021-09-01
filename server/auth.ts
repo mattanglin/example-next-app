@@ -21,6 +21,7 @@ export const auth = () => {
 
     return res.json({ user, token });
   });
+  
   router.post('/logout', (req, res) => {
     res.status(200).send(true);
   });

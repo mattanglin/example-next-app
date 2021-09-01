@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const LogoutPage: NextPage = () => {
   const { logout } = useAuth();
   useEffect(() => {
-  logout();
+    logout();
   }, [logout]);
 
   return null;

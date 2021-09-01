@@ -1,5 +1,6 @@
 import { NextApiHandler } from 'next';
 import axios, { Method, AxiosError } from 'axios';
+import { getServerAuth } from '../../lib/auth';
 import nookies from 'nookies';
 
 const proxyClient = axios.create({
@@ -12,12 +13,13 @@ const handler: NextApiHandler = async (req, res) => {
   
   try {
     // Proxy to api
-    const cookies = nookies.get({ req });
+    // const cookies = nookies.get({ req });
+    const token = getServerAuth(req);
     const headers = {} as Record<string, string>;
 
-    // Reeattch auth-token as auth headers
-    if (cookies['auth-token']) {
-      headers.Authorization = `Bearer ${cookies['auth-token']}`;
+    // Re-eattch auth-token as auth headers
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
     }
 
     const result = await proxyClient.request({
@@ -33,10 +35,10 @@ const handler: NextApiHandler = async (req, res) => {
     if (result.data && result.data.token) {
       nookies.set({ res }, 'auth-token', result.data.token, { httpOnly: false, path: '/' });
       // setCookie(res, 'token', result.data.token, { sameSite: 'lax' });
-    } else if (/^\/auth\/logout/.test(req.url || '')) {
+    } else if (/^\/auth\/logout/.test(proxyURL)) {
+      console.log('API LOGOUT')
       nookies.destroy({ res }, 'auth-token');
     }
-    // console.log('set-cookie?', res.getHeader('set-cookie'));
     
     res.status(result.status).send(result.data);
     res.end();
