@@ -49,7 +49,7 @@ app.use('/posts', posts());
 app.use('/users', users());
 
 const randomlyGeneratePosts = () => {
-  const timeoutSeconds = faker.datatype.number({ max: 30 }) + 5;
+  const timeoutSeconds = faker.datatype.number({ max: 15 }) + 5;
   setTimeout(() => {
     const post = data.generateNewUserPost();
     console.log('>> New Post Generated', post.id);
