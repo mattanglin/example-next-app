@@ -36,15 +36,20 @@ export const posts = () => {
       return res.status(401).send('UNAUTHORIZED');
     }
 
+    const to = req.query.to as string;
     const from = req.query.from as string;
     
     const feedPosts = data.userFeeds[req.username];
     const startIdx = from ? feedPosts.findIndex((p) => p.id === from) + 1 : 0;
-    const toIdx = startIdx + PAGE_SIZE;
+    const toIdx = to ? feedPosts.findIndex((p) => p.id === to) : startIdx + PAGE_SIZE;
 
     const feed = feedPosts.slice(startIdx, toIdx);
     res.status(200).send(feed);
   });
+
+  // router.get('/trending', (req, res) => {
+  //   const trendingPosts = ()
+  // });
 
   router.post('/star:id', (req, res) => {
     if (!req.username) {

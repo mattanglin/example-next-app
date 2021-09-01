@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useSwr from 'swr';
 import { Post } from '../types/Post';
 import { fetcher } from '../lib/fetcher';
@@ -6,38 +6,45 @@ import { fetcher } from '../lib/fetcher';
 
 export const useUserFeed = () => {
   const PAGE_SIZE = 15;
+  const [toId, setToId] = useState('');
   const [fromId, setFromId] = useState('');
   const [hasMore, setHasMore] = useState(true);
   const [posts, setPosts] = useState([] as Post[]);
-  const url = useMemo(() => fromId ? `/posts/feed?from=${fromId}` : `/posts/feed`, [fromId]);
-  const {
-    data,
-    error,
-    ...rest
-  } = useSwr<Post[]>(url, fetcher, { refreshInterval: 15000 });
+  const postsUrl = toId ? `/posts/feed?to=${toId}` : '/posts/feed';
+  const { data: newPosts, error: newPostsError } = useSwr<Post[]>(postsUrl, fetcher, { refreshInterval: 15000 });
+  const { data: oldPosts, error: oldPostsError } = useSwr<Post[]>(fromId ? `/posts/feed?from=${fromId}` : null, fetcher);
   const loadMore = useCallback(() => setFromId(posts[posts.length - 1].id), [setFromId, posts]);
 
-  
+  // Handle new posts
   useEffect(() => {
-    if (data && data.length) {
-      const dataIds = data.map((p) => p.id);
+    if (newPosts && newPosts.length) {
+      const refreshedPosts = [
+        ...newPosts,
+        ...posts,
+      ];
+      setPosts(refreshedPosts);
+      setToId(refreshedPosts[0].id);
+    }
+  }, [newPosts]);
+
+  useEffect(() => {
+    if (oldPosts && oldPosts.length) {
       const updatedPosts = [
-        ...posts.filter(p => !dataIds.includes(p.id)),
-        ...data,
-      ]
-      updatedPosts.sort((a, b) => a .created > b.created ? -1 : 1);
+        ...posts,
+        ...oldPosts,
+      ];
       setPosts(updatedPosts);
     }
-    if (data && data.length < PAGE_SIZE) {
+    if (oldPosts && oldPosts.length < PAGE_SIZE) {
       setHasMore(false);
     }
-  }, [data]);
+  }, [oldPosts]);
 
 
   return {
-    loading: !data,
+    loading: !newPosts,
     posts,
-    error,
+    error: oldPostsError || newPostsError,
     hasMore,
     loadMore,
   }
