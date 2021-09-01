@@ -1,6 +1,10 @@
 .avatar {
   width: 100%;
-  max-width: 100px;
+  max-width: 200px;
+}
+
+.wrapper {
+  width: 100%;
   position: relative;
   padding-top: 100%;
 }
@@ -11,7 +15,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1px solid #EAEAEA;
+  border: 2px solid #FFF;
   border-radius: 50%;
   overflow: hidden;
   box-sizing: border-box;

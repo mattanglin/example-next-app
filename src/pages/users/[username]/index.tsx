@@ -1,16 +1,22 @@
 import React from 'react';
-import { GetStaticPaths, GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps, NextPage, NextApiRequest } from 'next';
 import Head from 'next/head';
 import { Layout } from '../../../components/Layout/Layout';
 import { serverClient } from '../../../lib/client';
-import { User } from '../../../types/User';
+import { UserWithRelationship } from '../../../types/User';
+
+import { UserCard } from '../../../components/UserCard/UserCard';
+import { UserPosts } from '../../../components/UserPosts/UserPosts';
+import { useUserProfile } from '../../../hooks/useUserProfile';
 
 export interface UserProfilePageProps {
-  user: User;
+  user: UserWithRelationship;
 }
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps, { username: string }> = async (context) => {
   const { username = '' } = context.params || {};
+  serverClient.setToken(context.req as NextApiRequest);
+
   try {
     const user = await serverClient.getUserProfile(username);
     return {
@@ -24,14 +30,17 @@ export const getServerSideProps: GetServerSideProps<UserProfilePageProps, { user
   }
 }
 
-const UserProfilePage: NextPage<UserProfilePageProps> = ({ user }) => {
-  console.log('UserProfilePage', user);
+const UserProfilePage: NextPage<UserProfilePageProps> = ({ user: ssrUser }) => {
+  const { user: dynamicUser } = useUserProfile(ssrUser.username);
+  const user = dynamicUser || ssrUser;
+
   return (
     <Layout>
       <Head>
         <title>{user.username} - User Profile</title>
       </Head>
-      UserProfilePage
+      <UserCard user={user} />
+      <UserPosts user={user} />
     </Layout>
   )
 }

@@ -19,14 +19,18 @@
     "express": "^4.17.1",
     "faker": "^5.5.3",
     "next": "11.1.0",
+    "nookies": "^2.5.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.14.0",
+    "react-icons": "^4.2.0",
+    "swr": "^1.0.0",
     "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/classnames": "^2.3.1",
+    "@types/cookie": "^0.4.1",
     "@types/react": "17.0.19",
     "@types/yup": "^0.29.13",
     "concurrently": "^6.2.1",

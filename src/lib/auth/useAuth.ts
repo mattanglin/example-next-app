@@ -14,10 +14,13 @@ export const useAuth = () => {
     setAuth(payload);
     storeAuth(payload);
   }, [setAuth]);
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    await client.logout();
     clearAuth();
+    setAuth({});
+
     router.replace('/login');
-  }, [router]);
+  }, [router, setAuth]);
 
   return {
     ...auth,

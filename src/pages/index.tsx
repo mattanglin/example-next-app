@@ -1,9 +1,10 @@
 import type { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-// import Image from 'next/image'
 import { Layout } from '../components/Layout/Layout';
+import { UserFeed } from '../components/UserFeed/UserFeed';
 import { serverClient } from '../lib/client';
+import { useAuth } from '../lib/auth';
 import { Content } from '../types/Content';
 
 export interface HomePageProps {
@@ -24,28 +25,40 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ content, slugs }) => {
+  const { isLoggedIn, user } = useAuth();
   return (
     <Layout>
-      <Head>
-        <title>{content.title}</title>
-        <meta name="description" content={content.body} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <h1>
-        {content.title}
-      </h1>
+      {(isLoggedIn && user) ? (
+        <>
+          <Head>
+            <title>{user.username} - Dashboard</title>
+          </Head>
+          <UserFeed />
+        </>
+      ) : (
+        <>
+          <Head>
+            <title>{content.title}</title>
+            <meta name="description" content={content.body} />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <h1>
+            {content.title}
+          </h1>
 
-      <p>
-        {content.body}
-      </p>
-      <h2>Here Are some pages</h2>
-      <ul>
-        {slugs.map(slug => (
-          <li key={slug}>
-            <Link href={`/${slug}`}>{slug}</Link>
-          </li>
-        ))}
-      </ul>
+          <p>
+            {content.body}
+          </p>
+          <h2>Here Are some pages</h2>
+          <ul>
+            {slugs.map(slug => (
+              <li key={slug}>
+                <Link href={`/${slug}`}>{slug}</Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </Layout>
   )
 }

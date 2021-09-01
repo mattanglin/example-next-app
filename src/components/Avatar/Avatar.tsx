@@ -5,28 +5,32 @@ import { User } from '../../types/User';
 import styles from './Avatar.module.css';
 
 export interface AvatarProps extends React.ComponentPropsWithoutRef<'div'> {
-  user: User;
+  username: string;
+  avatar?: string;
 }
 
 export const Avatar: React.FC<AvatarProps> = ({
-  user,
+  username,
+  avatar,
   className,
   ...rest
 }) => (
   <div {...rest} className={cn(className, styles.avatar)}>
-    <div className={styles.inner}>
-      {user.avatar ? (
-        <Image
-          className={styles.img}
-          src={user.avatar}
-          alt={`${user.username} avatar`}
-          layout="fill"
-        />
-      ) : (
-        <div className={styles.text}>
-          {user.username.slice(0, 2)}
-        </div>
-      )}
+    <div className={styles.wrapper}>
+      <div className={styles.inner}>
+        {avatar ? (
+          <Image
+            className={styles.img}
+            src={avatar}
+            alt={`${username} avatar`}
+            layout="fill"
+          />
+        ) : (
+          <div className={styles.text}>
+            {username.slice(0, 2)}
+          </div>
+        )}
+      </div>
     </div>
   </div>
 );

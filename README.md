@@ -3,13 +3,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Roadmap
-- [ ] create mock api service
-- [ ] 404 page
+- [x] create mock api service
+- [x] 404 page
 - [x] generate static page examples, querying from api using `getSaticProps`
 - [x] generate dynamic page routes examples, querying from api use `getStaticPaths`
-- [ ] generate dynamic ssr page examples, querying from api using `getServerSideProps`
-- [ ] generate dynamic page examples, querying in client useing `useSWR`
-- [ ] Protected pages and Auth
+- [x] generate dynamic ssr page examples, querying from api using `getServerSideProps`
+- [x] generate dynamic page examples, querying in client useing `useSWR`
+- [x] Protected pages and Auth
 - [ ] redux?
 
 ## App example

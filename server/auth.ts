@@ -1,12 +1,11 @@
 import { Router } from 'express';
 import { data } from './data';
-import { token } from './token';
+import { generateToken } from './token';
 
 export const auth = () => {
   const router = Router();
   
   router.post('/login', (req, res) => {
-    console.log(req.body);
     // Handle lookup and login
     const user = Object.values(data.users).find((user) => new RegExp(`^${req.body.email}$`, 'i').test(user.email));
 
@@ -18,7 +17,12 @@ export const auth = () => {
       return res.status(403).send(`INVALID LOGIN CREDENTIALS (hint: ${user.password})`);
     }
 
+    const token = generateToken(user.username);
+
     return res.json({ user, token });
+  });
+  router.post('/logout', (req, res) => {
+    res.status(200).send(true);
   });
 
   return router;

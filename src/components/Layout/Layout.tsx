@@ -24,7 +24,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           {(isLoggedIn && user) ? (
             <div className={styles.userbar}>
               <div className={styles.avatar}>
-                <Avatar user={user} />
+                <Avatar username={user.username} avatar={user.avatar} />
               </div>
               <div>
                 {user.username}
