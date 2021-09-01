@@ -12,6 +12,19 @@ declare global {
 export const users = () => {
   const router = Router();
 
+  router.get('/popular', (req, res) => {
+    const usersByFollowers = Object.values(data.users).sort((a, b) => b.followers.length = a.followers.length);
+    const users = usersByFollowers.slice(0, 10).map((user) => ({
+      ...user,
+      isUser: user.username === req.username,
+      isFollowing: user.followers.includes(req.username),
+      isFollowedBy: user.following.includes(req.username),
+    }));
+    // generate relationship
+
+    res.status(200).send(users);
+  });
+
   router.get('/:username', (req, res) => {
     // Attach relationship
     if (req.params.username && data.users[req.params.username]) {

@@ -1,7 +1,8 @@
 import type { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { Layout } from '../components/Layout/Layout';
+import { PublicHomePage } from '../components/PublicHomepage/PublicHomepage';
+import { PopularUsers } from '../components/PopularUsers/PopularUsers';
 import { UserFeed } from '../components/UserFeed/UserFeed';
 import { serverClient } from '../lib/client';
 import { useAuth } from '../lib/auth';
@@ -34,30 +35,10 @@ const HomePage: NextPage<HomePageProps> = ({ content, slugs }) => {
             <title>{user.username} - Dashboard</title>
           </Head>
           <UserFeed />
+          <PopularUsers />
         </>
       ) : (
-        <>
-          <Head>
-            <title>{content.title}</title>
-            <meta name="description" content={content.body} />
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <h1>
-            {content.title}
-          </h1>
-
-          <p>
-            {content.body}
-          </p>
-          <h2>Here Are some pages</h2>
-          <ul>
-            {slugs.map(slug => (
-              <li key={slug}>
-                <Link href={`/${slug}`}>{slug}</Link>
-              </li>
-            ))}
-          </ul>
-        </>
+        <PublicHomePage content={content} slugs={slugs} />
       )}
     </Layout>
   )

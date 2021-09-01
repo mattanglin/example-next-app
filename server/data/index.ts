@@ -49,7 +49,8 @@ export const generateData = () => {
   // Generate User Posts
   const posts: Record<string, Post> = {};
   const userPosts: Record<string, Post[]> = {}; // Chronological by username
-  
+
+
   usernames.forEach((username) => {
     const postCount = faker.datatype.number(20);
     const user = users[username];
@@ -71,7 +72,7 @@ export const generateData = () => {
   // Generate User Relationships
   usernames.forEach((username) => {
     const user = users[username];
-    const followCount = faker.datatype.number(Math.min(50, userCount));
+    const followCount = faker.datatype.number(Math.min(100, userCount));
     const randomUsers = usernames.slice();
     faker.helpers.shuffle(randomUsers);
 
@@ -104,9 +105,13 @@ export const generateData = () => {
     });
   });
 
+  /**
+   * Utility functions
+   */
+
   // Generate new posts!
-  const generateNewUserPost = () => {
-    const username = faker.random.arrayElement(usernames);
+  const generateNewUserPost = (usernameToAdd?: string) => {
+    const username = usernameToAdd || faker.random.arrayElement(usernames);
     const user = users[username];
 
     const newPost = generatePost(user, new Date().toISOString());
@@ -121,6 +126,70 @@ export const generateData = () => {
     return newPost;
   }
 
+  const starPost = (options: { postId?: string; username?: string } = {}) => {
+    let postId = options.postId;
+    let username = options.username;
+
+    // Randomly select post
+    if (!postId) {
+      postId = faker.random.arrayElement(Object.keys(posts));
+    }
+    // Randomly select user
+    if (!username) {
+      username = faker.random.arrayElement(usernames);
+    }
+
+    // Star if not starred
+    const user = users[username];
+    const post = posts[postId];
+
+    if (!user.starredPosts.includes(postId)) {
+      user.starredPosts.push(postId);
+      post.stars.push(username);
+      
+      return { username, postId };
+    }
+  };
+
+  const trendPost = (options: { postId?: string } = {}) => {
+    const starCount = Math.min(faker.datatype.number(100) + 50, usernames.length);
+    const postId = options.postId || faker.random.arrayElement(Object.keys(posts));
+    const starGazers = faker.helpers.shuffle(usernames.slice()).slice(0, starCount);
+
+    let totalTimeout = 0;
+    starGazers.forEach((username) => {
+      const timeout = faker.datatype.number(1000)
+      setTimeout(() => starPost({ username, postId }), totalTimeout + timeout);
+      totalTimeout += timeout;
+    });
+
+    return { postId, starCount };
+  };
+
+  const registerUser = () => {
+    const user = generateUser();
+
+    users[user.username] = user;
+    usernames.push(user.username);
+    userFeeds[user.username] = [];
+    userPosts[user.username] = [];
+
+    return user;
+  }
+
+  const followUsers = (options: { username?: string; follow?: string } = {}) => {
+    const username = options.username || faker.random.arrayElement(usernames);
+    const user = users[username];
+    const follow = options.follow || faker.random.arrayElement(usernames.filter((u) => u !== username && !user.following.includes(u)));
+    const followUser = users[follow];
+
+    user.following.push(follow);
+    followUser.followers.push(username);
+
+    return { username, follow };
+  };
+
+
   return {
     content,
     pages,
@@ -130,6 +199,10 @@ export const generateData = () => {
     userFeeds,
 
     generateNewUserPost,
+    starPost,
+    trendPost,
+    registerUser,
+    followUsers,
   };
 };
 

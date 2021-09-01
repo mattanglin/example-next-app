@@ -47,9 +47,15 @@ export const posts = () => {
     res.status(200).send(feed);
   });
 
-  // router.get('/trending', (req, res) => {
-  //   const trendingPosts = ()
-  // });
+  router.get('/trending', (req, res) => {
+    const postsByStars = Object.values(data.posts).sort((a, b) => b.stars.length - a.stars.length);
+
+    const fromIdx = req.query.from ? postsByStars.findIndex((p) => p.id === req.query.from) + 1 : 0;
+    const toIdx = req.query.to ? postsByStars.findIndex((p) => p.id === req.query.to) : fromIdx + 5;
+    const posts = postsByStars.slice(fromIdx, toIdx);
+
+    res.status(200).send(posts);
+  });
 
   router.post('/star:id', (req, res) => {
     if (!req.username) {

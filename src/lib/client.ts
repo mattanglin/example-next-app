@@ -66,6 +66,11 @@ export class ApiClient {
     return data;
   }
 
+  public getPopularUsers = async () => {
+    const { data } = await this.client.get<UserWithRelationship>('/users/popular', { withCredentials: true });
+    return data;
+  }
+
   public followUser = async (username: string) => {
     await this.client.post(`/users/${username}/follow`, {}, { withCredentials: true });
   }
