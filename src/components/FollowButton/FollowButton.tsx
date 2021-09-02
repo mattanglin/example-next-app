@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import Link from 'next/link';
 import { client } from '../../lib/client';
 import { Button } from '../Button/Button';
 
@@ -25,7 +26,9 @@ export const FollowButton: React.FC<FollowButtonProps> = ({ user }) => {
 
   if (user.isUser) {
     return (
-      <div>Settings</div>
+      <Link href="/settings">
+        <Button>Settings</Button>
+      </Link>
     );
   }
 

@@ -72,7 +72,7 @@ export const generateData = () => {
   // Generate User Relationships
   usernames.forEach((username) => {
     const user = users[username];
-    const followCount = faker.datatype.number(Math.min(100, userCount));
+    const followCount = username === 'matt' ? Math.round(userCount * 2/3) : faker.datatype.number(Math.min(100, userCount));
     const randomUsers = usernames.slice();
     faker.helpers.shuffle(randomUsers);
 

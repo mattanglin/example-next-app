@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../Button/Button';
 import { PostList } from '../PostsList/PostsList';
-import { useUserFeed } from '../../hooks/useUserFeed';
+import { useUserFeed, useUserFeedInfinite } from '../../hooks/useUserFeed';
 import styles from './UserFeed.module.css';
 
 export const UserFeed: React.FC = () => {
@@ -10,7 +10,8 @@ export const UserFeed: React.FC = () => {
     loading,
     hasMore,
     loadMore,
-  } = useUserFeed();
+  // } = useUserFeed();
+  } = useUserFeedInfinite();
 
   return (
     <div className={styles.userfeed}>

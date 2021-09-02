@@ -17,7 +17,7 @@ export const readableDate = (date: string) => {
     return year === currentYear ? `${month} ${day}` : `${month} ${day}, ${year}` ;
   }
   if (dayDiff > 1 && dayDiff < 10) return `${dayDiff} days ago`;
-  if (hourDiff>= 1) return `${hourDiff} hours ago`;
+  if (hourDiff>= 1) return `${hourDiff} hour${hourDiff > 1 ? 's' : ''} ago`;
   if (minDiff > 2) return `${minDiff} minutes ago`;
   return 'just now';
 };

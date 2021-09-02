@@ -21,10 +21,12 @@ export const useUserPosts = (user: User) => {
   
   useEffect(() => {
     if (data && data.length) {
-      setPosts([
-        ...posts,
+      const dataIds = data.map((p) => p.id);
+      const updatedPosts = [
+        ...posts.filter((p) => !dataIds.includes(p.id)),
         ...data,
-      ]);
+      ]
+      setPosts(updatedPosts);
     }
     if (data && data.length < PAGE_SIZE) {
       setHasMore(false);
